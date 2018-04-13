@@ -134,9 +134,61 @@
     <Content Include="VersionInformation.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>echo POSTBUILDSTEP for $(ProjectName)
 
+     <PostBuildEvent>echo POSTBUILDSTEP for $(ProjectName)
+:BuildEventFailed
+echo POSTBUILDSTEP for $(ProjectName) FAILED
+exit 1
+
+:BuildEventOK
+echo POSTBUILDSTEP for $(ProjectName) COMPLETED OK
+</PostBuildEvent>
+  </PropertyGroup>
+
+  
+<PropertyGroup>
+    <!-- begin adding PreBuild stuf see also https://msdn.microsoft.com/de-de/library/dd293582.aspx
+                                          https://msdn.microsoft.com/en-us/library/42x5kfw4.aspx -->
+  <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>  
+  <PreLinkEventUseInBuild>true</PreLinkEventUseInBuild>
+  <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>  
+
+  <!-- <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">  
+  <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>  
+  <PreLinkEventUseInBuild>true</PreLinkEventUseInBuild>  
+  <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>  
+</PropertyGroup>  
+  
+ <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">  
+  <PreBuildEventUseInBuild>false</PreBuildEventUseInBuild>  
+  <PreLinkEventUseInBuild>false</PreLinkEventUseInBuild>  
+  <PostBuildEventUseInBuild>false</PostBuildEventUseInBuild>  
+</PropertyGroup>  -->    
+<PreBuildEvent>echo PreBUILDSTEP for $(ProjectName)
+echo disply all env
+  set
+
+IF NOT "$(APPVEYOR)"=="true" Goto :NotAppVeyor
+echo AppVeyor install cinst keepass -Version 2.38 -y
+echo on
+  cinst keepass -Version 2.38 -y
+  
+:NotAppVeyor
+REM DUMMY
+goto :BuildEventOK
+
+  :BuildEventFailed
+echo PreBUILDSTEP for $(ProjectName) FAILED
+exit 1
+
+:BuildEventOK
+echo PreBUILDSTEP for $(ProjectName) COMPLETED OK
+</PreBuildEvent>
+
+<PostBuildEvent>echo POSTBUILDSTEP for $(ProjectName)
+echo disply all env
+  set
+  
 REM set KPDir=c:\Program Files (x86)\KeePass Password Safe 2\
 set KPDir=$(ProjectDir)..\KeePass\
 set KPPDir=%25KPDir%25plugins\
