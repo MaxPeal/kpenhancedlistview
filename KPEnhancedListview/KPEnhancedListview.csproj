@@ -166,17 +166,19 @@ set bin2KPDir=%APPVEYOR_BUILD_FOLDER%..\KeePass\
 set bin2KPPDir=%25bin2KPDir%25plugins\
 mkdir "$(ProjectDir)..\KeePass\"
 xcopy /E/F/H/Y "%ProgramFiles(x86)%\KeePass Password Safe 2\*.*" "$(ProjectDir)..\KeePass\"
-  
-  
+if errorlevel 1 goto PreBuildEventFailed
+echo EXEC OK: xcopy /E/F/H/Y "%ProgramFiles(x86)%\KeePass Password Safe 2\*.*" "$(ProjectDir)..\KeePass\"
+goto :PreBuildEventOK
+
 :NotAppVeyor
 REM DUMMY
-goto :BuildEventOK
+goto :PreBuildEventOK
 
-  :BuildEventFailed
+:PreBuildEventFailed
 echo PreBUILDSTEP for $(ProjectName) FAILED
 exit 1
 
-:BuildEventOK
+:PreBuildEventOK
 echo PreBUILDSTEP for $(ProjectName) COMPLETED OK
 </PreBuildEvent>
 
