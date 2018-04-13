@@ -159,7 +159,14 @@ echo disply all env
 echo on
 IF "$(APPVEYOR)"=="" Goto :NotAppVeyor
 echo AppVeyor install cinst keepass -Version 2.38 -y
-  cinst keepass -Version 2.38 -y
+cinst keepass -Version 2.38 -y
+
+set orgKPDir=%ProgramFiles(x86)%\KeePass Password Safe 2\
+set bin2KPDir=%APPVEYOR_BUILD_FOLDER%..\KeePass\
+set bin2KPPDir=%25bin2KPDir%25plugins\
+mkdir "$(ProjectDir)..\KeePass\"
+xcopy /E/F/H/Y "%ProgramFiles(x86)%\KeePass Password Safe 2\*.*" "$(ProjectDir)..\KeePass\"
+  
   
 :NotAppVeyor
 REM DUMMY
