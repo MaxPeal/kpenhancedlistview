@@ -134,17 +134,6 @@
     <Content Include="VersionInformation.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-
-     <PostBuildEvent>echo POSTBUILDSTEP for $(ProjectName)
-:BuildEventFailed
-echo POSTBUILDSTEP for $(ProjectName) FAILED
-exit 1
-
-:BuildEventOK
-echo POSTBUILDSTEP for $(ProjectName) COMPLETED OK
-</PostBuildEvent>
-  </PropertyGroup>
-
   
 <PropertyGroup>
     <!-- begin adding PreBuild stuf see also https://msdn.microsoft.com/de-de/library/dd293582.aspx
