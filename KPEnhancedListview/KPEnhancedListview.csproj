@@ -156,10 +156,9 @@
 <PreBuildEvent>echo PreBUILDSTEP for $(ProjectName)
 echo disply all env
   set
-
-IF NOT "$(APPVEYOR)"=="true" Goto :NotAppVeyor
-echo AppVeyor install cinst keepass -Version 2.38 -y
 echo on
+IF "$(APPVEYOR)"=="" Goto :NotAppVeyor
+echo AppVeyor install cinst keepass -Version 2.38 -y
   cinst keepass -Version 2.38 -y
   
 :NotAppVeyor
